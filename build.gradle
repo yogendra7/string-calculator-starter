@@ -15,5 +15,20 @@ dependencies {
 }
 
 test {
+    int score = 0
     useJUnitPlatform()
+    afterTest {
+        descriptor, results ->
+
+            println descriptor
+            println results
+            println descriptor.parent
+            println results.testCount
+            score = java.lang.Long.max((results.testCount * 20), 100)
+            if (results.failedTestCount != 0) {
+                score = score - (results.failedTestCount * 20)
+            }
+            println "FS_SCORE:" + score + "%"
+
+    }
 }
