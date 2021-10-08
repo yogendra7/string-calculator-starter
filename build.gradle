@@ -15,20 +15,13 @@ dependencies {
 }
 
 test {
-    int score = 0
     useJUnitPlatform()
-    afterTest {
+    afterSuite {
         descriptor, results ->
+            if (!descriptor.parent) {
+                int testScore = results.testCount * 40 - results.failedTestCount * 50
 
-            println descriptor
-            println results
-            println descriptor.parent
-            println results.testCount
-            score = java.lang.Long.max((results.testCount * 20), 100)
-            if (results.failedTestCount != 0) {
-                score = score - (results.failedTestCount * 20)
+                println "FS_SCORE:"+ testScore + "%"
             }
-            println "FS_SCORE:" + score + "%"
-
     }
 }
